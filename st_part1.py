@@ -1,0 +1,8 @@
+exec(open('kociu_stresstest.py').read().split('print("="*78)')[0])
+print("="*70)
+print("STRESS TEST (parte 1): scala e architettura")
+print("="*70)
+run_scenario("BASE (h=12, Tanh)",12,2,'tanh',1,n_pairs=15)
+run_scenario("Grande (h=128)",128,2,'tanh',1,n_pairs=15)
+run_scenario("Profonda (depth=4)",64,4,'tanh',1,n_pairs=15)
+run_scenario("ReLU invece di Tanh",64,3,'relu',1,n_pairs=15)

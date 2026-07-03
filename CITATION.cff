@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+authors:
+  - family-names: "Kociu"
+    given-names: "Suela"
+    affiliation: "Independent Researcher, Turin, Italy"
+title: "Detecting Learned Shortcuts from the Internal State of Neural Networks: A Multi-Metric Framework, Its Robustness, and a Principled Limit"
+version: 1.0.0
+date-released: 2026-07-02
+license: CC-BY-4.0

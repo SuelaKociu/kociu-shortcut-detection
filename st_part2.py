@@ -1,0 +1,8 @@
+exec(open('kociu_stresstest.py').read().split('print("="*78)')[0])
+print("="*70)
+print("STRESS TEST (parte 2): baro complesso e segnale debole")
+print("="*70)
+run_scenario("3 scorciatoie simultanee",64,2,'tanh',3,n_pairs=15)
+run_scenario("5 scorciatoie simultanee",128,3,'relu',5,n_pairs=12)
+run_scenario("Allenamento breve (ep=200)",64,2,'tanh',1,n_pairs=15,ep=200)
+run_scenario("Allenamento minimo (ep=50)",64,2,'tanh',1,n_pairs=15,ep=50)
