@@ -1,79 +1,36 @@
-# Detecting Learned Shortcuts from the Internal State of Neural Networks
-### A Multi-Metric Framework, Its Robustness, and a Principled Limit
+# Internal Representation Profiles for Detecting Compressive Shortcut Learning
 
-**Suela Kociu** — Independent Researcher, Turin, Italy · suelaresuli@gmail.com
+> **Candidate status (26 July 2026).** Version 2.1.0 is a methodological-correction candidate, not a published confirmatory result. It corrects Primary B so that the combined profile+output detector is compared against the output-only detector. Full confirmatory outputs remain pending.
 
-*Rilevare le scorciatoie apprese dallo stato interno delle reti neurali: un framework multi-metrica, la sua robustezza e un limite di principio.*
+**Suela Kociu** — Independent Researcher, Turin, Italy
 
----
+This repository studies whether a small profile of hidden-representation statistics can distinguish paired neural networks trained with and without a controlled shortcut.
 
-## What this is / Cos'è
+The version-1 pilot found perfect separation for a strong linear shortcut under a neutral labeled probe and leave-one-seed-pair-out validation. Transfer was high to a closely related signed-threshold generator but poor to product and historical sparse generators. Version 2 treats that failure as empirical non-transfer, not as an impossibility theorem.
 
-Neural networks can reach high training accuracy while secretly relying on **spurious features ("shortcuts")** that fail out of distribution. This repository contains a multi-metric framework that inspects the **internal state** of a trained network and detects shortcut reliance — **without ever consulting a future test set** — together with the demonstration of a **principled limit**: some shortcut classes are invisible to internal inspection.
+## Scientific status
 
-Le reti neurali possono raggiungere alta accuratezza basandosi su **caratteristiche spurie ("scorciatoie")** che falliscono fuori distribuzione. Questo repository contiene un framework multi-metrica che ispeziona lo **stato interno** della rete e rileva la dipendenza da scorciatoie — **senza mai consultare un test futuro** — insieme alla dimostrazione di un **limite di principio**: alcune classi di scorciatoie sono invisibili all'ispezione interna.
+- Archived pilot summaries: exploratory evidence.
+- Confirmatory protocol: frozen in `configs/confirmatory.yaml`.
+- Confirmatory neural results: not yet generated.
+- Real-world validation: not performed.
 
-## Key results / Risultati principali
+## Metrics
 
-| Result | Value |
-|---|---|
-| TSS correlation with learning (2 tasks, 30 nets each) | r = 0.72 / 0.89 |
-| Shuffled-label control | r = 0.08 (collapses ✓) |
-| Combined metrics predict system state | R² = 0.84 |
-| Shortcut detection (neutral probe + leave-one-seed-pair-out) | 100% |
-| Robust to: width, depth, ReLU, 3–5 shortcuts, adversarial hiding | 93–100% |
-| **Unseen shortcut types**: threshold / multiplicative / sparse | **100% / ~chance / 0%** |
-| Three independent strategies on sparse shortcut | all fail (≤ chance) |
+1. **Task-Structured Separability (TSS)** — bounded between/within-class separation on a labeled probe.
+2. **Spectral Concentration (SC)** — one minus normalized eigenvalue entropy of the hidden correlation matrix.
+3. **Local Sensitivity (LS)** — average correlation between input- and hidden-space perturbation norms.
 
-**The limit is the finding**: shortcuts that do not reorganize the bulk of the representation (sparse, multiplicative) are indistinguishable from genuine strategies by internal inspection alone — at any point during training.
+Because TSS uses probe labels, this is a representation-based diagnostic on a controlled labeled probe, not an intrinsic label-free inspection method.
 
-## The three metrics / Le tre metriche
+## Main correction in v2.1
 
-- **TSS (Task-Structured Separability)** — between-class separation over within-class dispersion in hidden space: `TSS = B / (W + B)` (Fisher-style separability on hidden representations; implemented in code as `delta_phi_structured`)
-- **Ψ (spectral concentration)** — `1 −` normalized eigenvalue entropy of the hidden correlation matrix. The shortcut signature: *suspiciously over-ordered* internal state (Ψ ≈ 1.0)
-- **Ω (local sensitivity)** — correlation between input-perturbation size and hidden-state change, averaged over many perturbations
+Primary B now compares **profile + output features** against **output-only features**. The previous implementation compared profile-only against output-only and therefore did not match the written protocol.
 
-## Repository structure / Struttura
+## Scope
 
-```
-paper/     Full bilingual paper (IT/EN) with all equations, tables, figures
-code/      All experiment scripts (see order below)
-figures/   All figures, generated from real experimental outputs
-```
+This project does not establish that every shortcut has a detectable internal signature, that a clean profile proves shortcut absence, or that these statistics measure consciousness or phenomenology.
 
-## Reproduce everything / Riproduci tutto
+The defensible claim is narrower: some shortcut generators produce global representational changes detectable under controlled conditions, while transfer to structurally different generators can fail sharply.
 
-```bash
-pip install -r requirements.txt
-```
-
-Suggested order (each script is standalone and prints its results):
-
-| # | Script | What it shows |
-|---|---|---|
-| 1 | `kociu_v2_step1.py`, `kociu_v2_causal.py` | Negative controls: naive metrics that fail |
-| 2 | `kociu_v3_structured.py` | TSS tracks learning (the working metric) |
-| 3 | `kociu_validation.py` | Validation on 2 tasks + shuffled-label control |
-| 4 | `kociu_3metrics.py`, `kociu_independence.py` | Ψ, Ω; complementarity (R²=0.84) |
-| 5 | `kociu_emergence.py`, `kociu_emergence_validation.py` | Shortcut detection (98.8% on 80 nets) |
-| 6 | `kociu_stresstest.py`, `st_part1.py`, `st_part2.py`, `st_adversarial.py` | Stress tests incl. adversarial |
-| 7 | `kociu_corrected_test.py` | Neutral probe + leave-one-seed-pair-out (100%) |
-| 8 | `kociu_unseen_shortcut.py` | **The principled limit** (unseen shortcut types) |
-| 9 | `kociu_second_sense.py`, `kociu_trajectory.py` | Two more strategies that fail on sparse |
-
-Runtimes: seconds to a few minutes each on CPU.
-
-## Honest scope / Ambito onesto
-
-- Synthetic data, small/medium networks only. Images, text, large models: untested.
-- This work makes **no claims about consciousness**, in either direction. Whether task-structured separability of internal representations bears any empirical relation to integrated-information measures is left as an **open question** for future work (see paper, Conclusions): only direct comparison on systems where both quantities are computable can establish or exclude it.
-- A clean internal reading certifies the absence of *detectable* shortcuts, not of all shortcuts.
-- **Independent replication is invited** — that is what this repository is for.
-
-## Citation / Citazione
-
-See `CITATION.cff`. Code developed with AI-assisted programming; every result verified by direct execution.
-
-## License / Licenza
-
-CC BY 4.0 — free to share and adapt with attribution.
+See the candidate branch files, tests, methodological correction note, and manuscript for details.

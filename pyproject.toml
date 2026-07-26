@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kociu-shortcut-detection"
+version = "2.1.0"
+description = "Controlled diagnostics of shortcut-induced changes in neural-network representations"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Suela Kociu", email = "suelaresuli@gmail.com"}]
+dependencies = ["numpy>=1.24,<3", "scipy>=1.10,<2", "PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+train = ["torch>=2.0,<3", "pandas>=2,<3"]
+plot = ["matplotlib>=3.7,<4"]
+dev = ["pytest>=8,<10", "ruff>=0.5,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
