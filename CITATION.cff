@@ -1,10 +1,25 @@
 cff-version: 1.2.0
-message: "If you use this work, please cite it as below."
+message: "If you use this software or its associated study, please cite it as below."
+title: "Internal Representation Profiles for Detecting Compressive Shortcut Learning"
+type: software
+version: 2.1.0
+date-released: 2026-07-26
 authors:
-  - family-names: "Kociu"
-    given-names: "Suela"
+  - family-names: Kociu
+    given-names: Suela
     affiliation: "Independent Researcher, Turin, Italy"
-title: "Detecting Learned Shortcuts from the Internal State of Neural Networks: A Multi-Metric Framework, Its Robustness, and a Principled Limit"
-version: 1.0.0
-date-released: 2026-07-02
-license: CC-BY-4.0
+    email: suelaresuli@gmail.com
+abstract: >-
+  A reproducible synthetic benchmark and confirmatory protocol for evaluating
+  whether task-structured separability, spectral concentration, and local
+  sensitivity can identify shortcut-induced changes in neural-network hidden
+  representations. The package distinguishes archived pilot findings from
+  prospective confirmatory analyses and makes no claim of universal shortcut
+  detection.
+keywords:
+  - shortcut learning
+  - spurious correlations
+  - neural representations
+  - interpretability
+  - reproducibility
+license: MIT
